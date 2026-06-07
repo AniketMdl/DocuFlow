@@ -4,7 +4,7 @@ const connectDB = async () => {
   const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/docuflow_dev';
   try {
     await mongoose.connect(uri, {
-      // useNewUrlParser and useUnifiedTopology are defaults in newer mongoose
+      // options can be added here if needed
     });
     console.log('MongoDB connected successfully');
   } catch (error) {
