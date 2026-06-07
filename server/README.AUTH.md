@@ -1,39 +1,15 @@
-Added authentication (Day 2) implementation:
+Added GET /api/auth/me (protected) and refresh token support (refresh/logout) on feature/day2-auth.
 
-Files added/updated on branch feature/day2-auth:
-- server/package.json (added bcryptjs and jsonwebtoken)
-- server/models/User.js (Mongoose User schema)
-- server/controllers/authController.js (register & login handlers)
-- server/routes/auth.js (auth endpoints)
-- server/middleware/auth.js (JWT auth middleware)
-- server/server.js (mounts /api/auth)
-- server/.env.example (added ACCESS_TOKEN_EXPIRES_IN & BCRYPT_SALT_ROUNDS)
-- PROGRESS.md updated to mark Day 2 done
+Files added/updated:
+- server/models/RefreshToken.js (new)
+- server/controllers/authController.js (updated: login returns refresh token; added refresh, logout, me handlers)
+- server/routes/auth.js (added /refresh, /logout, /me)
+- server/.env.example (added REFRESH_TOKEN_EXPIRES_IN)
 
-How to test locally:
-1) Checkout the branch:
-   git fetch origin
-   git checkout feature/day2-auth
+How to test:
+1) Start server (ensure env has JWT_SECRET & MONGODB_URI)
+2) Register/login to receive { token, refreshToken }
+3) Call GET /api/auth/me with Authorization: Bearer <token> to verify middleware
+4) Use POST /api/auth/refresh with { "refreshToken": "..." } to rotate tokens
+5) Use POST /api/auth/logout with { "refreshToken": "..." } to revoke refresh token
 
-2) Install server deps and run
-   cd server
-   npm install
-   cp .env.example .env
-   # Edit server/.env: set MONGODB_URI to your Atlas URI and JWT_SECRET to a strong secret
-   npm run dev
-
-3) Register a user:
-   curl -X POST http://localhost:5000/api/auth/register -H "Content-Type: application/json" -d '{"name":"Test","email":"test@example.com","password":"P@ssw0rd"}'
-
-4) Login:
-   curl -X POST http://localhost:5000/api/auth/login -H "Content-Type: application/json" -d '{"email":"test@example.com","password":"P@ssw0rd"}'
-
-Expected results:
-- Register returns 201 with user id, name, email (no password)
-- Login returns 200 with { "token": "<JWT>" }
-
-Next steps I can take for you:
-- Protect document upload & sign routes with the auth middleware
-- Add refresh tokens and logout
-- Add basic tests for auth flows
-- Open a PR from feature/day2-auth -> main
