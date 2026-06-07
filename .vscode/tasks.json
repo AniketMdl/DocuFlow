@@ -1,0 +1,42 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Install server deps",
+      "type": "shell",
+      "command": "npm install",
+      "options": { "cwd": "${workspaceFolder}/server" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Install client deps",
+      "type": "shell",
+      "command": "npm install",
+      "options": { "cwd": "${workspaceFolder}/client" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Start backend (dev)",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": { "cwd": "${workspaceFolder}/server" },
+      "isBackground": true,
+      "presentation": { "reveal": "always" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Start frontend (dev)",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": { "cwd": "${workspaceFolder}/client" },
+      "isBackground": true,
+      "presentation": { "reveal": "always" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Start full dev (server + client)",
+      "dependsOn": ["Start backend (dev)", "Start frontend (dev)"],
+      "problemMatcher": []
+    }
+  ]
+}
