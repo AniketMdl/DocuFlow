@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
@@ -15,6 +16,17 @@ app.use(express.json());
 // Auth routes
 const authRoutes = require('./routes/auth');
 app.use('/api/auth', authRoutes);
+const docsRoutes = require("./routes/docs");
+app.use('/api/auth', authRoutes);
+app.use("/api/docs", docsRoutes);
+
+app.use(
+  "/uploads",
+  express.static(
+    path.join(__dirname, "uploads")
+  )
+);
+
 
 // Health route
 app.get('/api/health', (req, res) => {
